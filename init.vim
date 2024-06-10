@@ -12,6 +12,7 @@ Plug 'othree/html5.vim'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree'
+Plug 'lervag/wiki.vim'
 
 call plug#end()
 
