@@ -13,11 +13,17 @@ Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree'
 Plug 'lervag/wiki.vim'
+Plug 'junegunn/vim-emoji'
 
 call plug#end()
 
 " Luego de esta línea puedes agregar tus configuraciones y mappings
 
+for e in emoji#list()
+  call append(line('$'), printf('%s (%s)', emoji#for(e), e))
+endfor
+
+set completefunc=emoji#complete
 
 " theme
 
@@ -84,7 +90,7 @@ if has("nvim-0.5.0") || has("patch-8.1.1564")
 	    set signcolumn=number
     else
 	      set signcolumn=yes
-      endif
+     endif
 
       " Use tab for trigger completion with characters ahead and navigate.
       " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -224,3 +230,20 @@ if has("nvim-0.5.0") || has("patch-8.1.1564")
 										nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 										" Resume latest coc list.
 										nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+
+
+" Function to open the file or NERDTree or netrw.
+"   Returns: 1 if either file explorer was opened; otherwise, 0.
+
+function! OpenFileWithApp()
+    let l:filename = fnamemodify(g:NERDTreeFileNode.GetSelected().path.str(), ':p')
+    if l:filename =~ '\.pdf$'
+        silent execute "!zathura " . shellescape(l:filename) . " &"
+    else
+        execute "NERDTreeFind"
+    endif
+endfunction
+
+nnoremap <F9> :call OpenFileWithApp()<CR>
+
